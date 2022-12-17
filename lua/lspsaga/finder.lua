@@ -134,12 +134,11 @@ function Finder:loading_bar()
         return
       end
 
-      if
-        (
+      if (
           self.request_status[methods[1]]
-          and self.request_status[methods[2]]
-          and self.request_status[methods[3]]
-        ) and not spin_timer:is_closing()
+              and self.request_status[methods[2]]
+              and self.request_status[methods[3]]
+          ) and not spin_timer:is_closing()
       then
         spin_timer:stop()
         spin_timer:close()
@@ -507,6 +506,10 @@ function Finder:apply_float_map()
     self:quit_with_clear()
   end
 
+  local window_func = function()
+    self:pick_window()
+  end
+
   local keymaps = {
     { 'n', move.prev, '<Up>', opts },
     { 'n', move.next, '<Down>', opts },
@@ -515,6 +518,7 @@ function Finder:apply_float_map()
     { 'n', action.tabe, tabe_func, opts },
     { 'n', action.open, open_func, opts },
     { 'n', action.quit, quit_func, opts },
+    { 'n', action.window, window_func, opts },
   }
 
   nvim_create_keymap(keymaps)
@@ -791,6 +795,11 @@ end
 function Finder:quit_with_clear()
   self:quit_float_window()
   self:clear_tmp_data()
+end
+
+function Finder:pick_window()
+  local picked_window_id = require('window-picker').pick_window()
+  vim.api.nvim_set_current_win(picked_window_id)
 end
 
 return Finder

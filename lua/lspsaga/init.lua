@@ -47,6 +47,7 @@ saga.config_values = {
     split = 'i',
     tabe = 't',
     quit = { 'q', '<ESC>' },
+    window = { 'w' },
   },
   code_action_keys = {
     quit = 'q',
